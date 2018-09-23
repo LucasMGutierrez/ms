@@ -1,10 +1,11 @@
 package main
 
 import (
-	"ms/config"
 	"fmt"
-	"net/rpc"
-	"log"
+	"github.com/uber/jaeger-client-go/examples/ms/config"
+	"github.com/uber/jaeger-client-go/examples/ms/tracing"
+	"github.com/uber/jaeger-client-go/examples/ms/http"
+	"github.com/opentracing/opentracing-go"
 )
 
 func main() {
@@ -12,17 +13,17 @@ func main() {
 }
 
 func Request() string {
-	front, err := rpc.DialHTTP("tcp", "0.0.0.0" + config.PortFrontend)
-	if err != nil {
-		log.Fatal("Client: ", err)
-	}
+	/* Start tracer */
+	tracer, closer := tracing.InitJaeger("Hello-World")
+    defer closer.Close()
+    opentracing.SetGlobalTracer(tracer)
 
-	var reply string
+    span := tracer.StartSpan("Request")
+    span.SetTag("Client", "")
 
-	err = front.Call("Frontend.Get", 0, &reply)
-	if err != nil {
-		log.Fatal("Client: ", err)
-	}
+    defer span.Finish()
 
-	return reply
+    //ctx := opentracing.ContextWithSpan(context.Background(), span)
+
+	return xhttp.Get(span, "Frontend", config.PortFrontend)
 }
