@@ -20,7 +20,7 @@ func NewServer() {
 
 	http.HandleFunc("/publish", func(w http.ResponseWriter, r *http.Request) {
 		spanCtx, _ := tracer.Extract(opentracing.HTTPHeaders, opentracing.HTTPHeadersCarrier(r.Header))
-		span := tracer.StartSpan("publish", ext.RPCServerOption(spanCtx))
+		span := tracer.StartSpan("Ms2", ext.RPCServerOption(spanCtx))
 		defer span.Finish()
 
 		reply := "Hello "

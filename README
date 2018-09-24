@@ -1,0 +1,54 @@
+# Install go
+
+sudo add-apt-repository ppa:gophers/archive
+sudo apt-get update
+sudo apt-get install golang-1.10-go
+
+# Define GOPATH
+
+mkdir go/src
+GOPATH=$HOME/go
+export GOPATH
+
+# Get OpenTracing
+
+mkdir -p $GOPATH/src/github.com/opentracing
+cd $GOPATH/src/github.com/opentracing
+git clone https://github.com/opentracing/opentracing-go
+
+# Get Jaeger Go Client
+
+mkdir -p $GOPATH/src/github.com/uber
+cd $GOPATH/src/github.com/uber
+git clone https://github.com/jaegertracing/jaeger-client-go
+cd $GOPATH/src/github.com/uber/jaeger-client-go
+make install
+
+# if Glide is not installed
+
+curl https://glide.sh/get | sh
+
+# Get Microservice
+
+mkdir -p $GOPATH/src/github.com/uber/jaeger-client-go/examples
+cd $GOPATH/src/github.com/uber/jaeger-client-go/examples
+git clone https://github.com/LucasMGutierrez/ms
+cd ms
+
+# Run Jaeger UI
+
+docker run -d -p5775:5775/udp -p6831:6831/udp -p6832:6832/udp -p5778:5778 -p16686:16686 -p14268:14268 -p9411:9411 jaegertracing/all-in-one:0.8.0
+http://localhost:16686
+
+# Run Microservices
+
+sh servers.sh
+
+# Get request
+
+go run client.go
+
+# Kill microservices (da um trabalhinho)
+
+sudo lsof -i -P -n | grep LISTEN
+kill geral
