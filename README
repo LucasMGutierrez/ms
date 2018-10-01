@@ -50,5 +50,5 @@ go run client.go
 
 # Kill microservices (da um trabalhinho)
 
-sudo lsof -i -P -n | grep LISTEN
-kill geral
+sudo lsof -i -P -n | grep LISTEN > arq
+python3 killservers.py

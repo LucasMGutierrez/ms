@@ -32,7 +32,7 @@ func Do(req *http.Request) ([]byte, error) {
 }
 
 func Get(rootSpan opentracing.Span, spanName string, port string) string {
-	span := rootSpan.Tracer().StartSpan("publish", opentracing.ChildOf(rootSpan.Context()))
+	span := rootSpan.Tracer().StartSpan("GET", opentracing.ChildOf(rootSpan.Context()))
 	defer span.Finish()
 
 	url := "http://localhost" + port + "/publish?"

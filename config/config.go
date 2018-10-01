@@ -6,7 +6,7 @@ import (
 
 var (
 	// Frontend delay
-    FrontendDelay = 10 * time.Millisecond
+    FrontendDelay = 100 * time.Millisecond
 
     // Frontend delay variation
     FrontendDelayVar = FrontendDelay / 10

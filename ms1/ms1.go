@@ -29,7 +29,6 @@ func NewServer() {
 		str2 := xhttp.Get(span, "Ms3", config.PortMs3)
 		reply := str1 + str2
 
-		
 
 		w.Write([]byte(reply))
 	})
