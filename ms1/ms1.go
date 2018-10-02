@@ -7,7 +7,6 @@ import (
 	"github.com/uber/jaeger-client-go/examples/ms/delay"
 	"github.com/uber/jaeger-client-go/examples/ms/http"
 	"github.com/opentracing/opentracing-go"
-	"github.com/opentracing/opentracing-go/ext"
 	"log"
 )
 
@@ -21,7 +20,7 @@ func NewServer() {
 
 	http.HandleFunc("/publish", func(w http.ResponseWriter, r *http.Request) {
 		spanCtx, _ := tracer.Extract(opentracing.HTTPHeaders, opentracing.HTTPHeadersCarrier(r.Header))
-		span := tracer.StartSpan("Ms1", ext.RPCServerOption(spanCtx))
+		span := tracer.StartSpan("Ms1", opentracing.ChildOf(spanCtx))
 		defer span.Finish()
 
 		str1 := xhttp.Get(span, "Ms2", config.PortMs2)

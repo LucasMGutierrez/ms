@@ -31,10 +31,7 @@ func Do(req *http.Request) ([]byte, error) {
 	return body, nil
 }
 
-func Get(rootSpan opentracing.Span, spanName string, port string) string {
-	span := rootSpan.Tracer().StartSpan("GET", opentracing.ChildOf(rootSpan.Context()))
-	defer span.Finish()
-
+func Get(span opentracing.Span, spanName string, port string) string {
 	url := "http://localhost" + port + "/publish?"
 	fmt.Println(url)
 	req, err := http.NewRequest("GET", url, nil)

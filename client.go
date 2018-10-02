@@ -23,7 +23,5 @@ func Request() string {
 
     defer span.Finish()
 
-    //ctx := opentracing.ContextWithSpan(context.Background(), span)
-
 	return xhttp.Get(span, "Frontend", config.PortFrontend)
 }
