@@ -24,9 +24,9 @@ func NewServer() {
 		span := tracer.StartSpan("Ms1", ext.RPCServerOption(spanCtx))
 		defer span.Finish()
 
-		delay.Sleep(config.Ms1Delay, config.Ms1DelayVar)
 		str1 := xhttp.Get(span, "Ms2", config.PortMs2)
 		str2 := xhttp.Get(span, "Ms3", config.PortMs3)
+		delay.Sleep(config.Ms1Delay, config.Ms1DelayVar)
 		reply := str1 + str2
 
 

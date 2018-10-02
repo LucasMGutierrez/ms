@@ -23,10 +23,10 @@ func NewServer() {
 	http.HandleFunc("/publish", func(w http.ResponseWriter, r *http.Request) {
 		spanCtx, _ := tracer.Extract(opentracing.HTTPHeaders, opentracing.HTTPHeadersCarrier(r.Header))
 		span := tracer.StartSpan("publish", ext.RPCServerOption(spanCtx))
+		defer span.Finish()
 
 		reply := xhttp.Get(span, "Ms1", config.PortMs1)
 		delay.Sleep(config.FrontendDelay, config.FrontendDelayVar)
-		span.Finish()
 
 		w.Write([]byte(reply))
 	})
