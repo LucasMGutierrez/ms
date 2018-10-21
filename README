@@ -85,4 +85,5 @@ python delall.py
 
 # Model
 
+(install PDQ-R)
 R -f app_name.R

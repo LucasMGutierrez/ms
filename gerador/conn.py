@@ -139,7 +139,7 @@ f.write('lambda <- nReqs / tempo\n\n')
 f.write('# Inicializacao\n\n')
 
 f.write('Init("OpenCircuit")\n')
-f.write('SetComment("Mode de Redes de Filas para o ' + app + '")\n\n')
+f.write('SetComment("Modelo de Redes de Filas para o ' + app + '")\n\n')
 
 f.write('# Definicao das Filas\n\n')
 
