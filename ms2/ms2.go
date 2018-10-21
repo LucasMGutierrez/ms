@@ -16,6 +16,7 @@ func main() {
 func NewServer() {
 	tracer, closer := tracing.InitJaeger("Ms2")
 	defer closer.Close()
+	init := false
 
 	http.HandleFunc("/publish", func(w http.ResponseWriter, r *http.Request) {
 		spanCtx, _ := tracer.Extract(opentracing.HTTPHeaders, opentracing.HTTPHeadersCarrier(r.Header))
@@ -23,7 +24,7 @@ func NewServer() {
 		defer span.Finish()
 
 		reply := "Hello "
-		delay.Sleep(config.Ms2Delay, config.Ms2DelayVar)
+		delay.Sleep(config.Ms2Delay, config.Ms2DelayVar, &init)
 
 		w.Write([]byte(reply))
 	})

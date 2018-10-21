@@ -16,6 +16,7 @@ func main() {
 func NewServer() {
 	tracer, closer := tracing.InitJaeger("Ms3")
 	defer closer.Close()
+	init := false
 
 	http.HandleFunc("/publish", func(w http.ResponseWriter, r *http.Request) {
 		spanCtx, _ := tracer.Extract(opentracing.HTTPHeaders, opentracing.HTTPHeadersCarrier(r.Header))
@@ -23,7 +24,7 @@ func NewServer() {
 		defer span.Finish()
 
 		reply := "World!"
-		delay.Sleep(config.Ms3Delay, config.Ms3DelayVar)
+		delay.Sleep(config.Ms3Delay, config.Ms3DelayVar, &init)
 
 		w.Write([]byte(reply))
 	})

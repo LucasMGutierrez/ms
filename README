@@ -28,6 +28,11 @@ make install
 
 curl https://glide.sh/get | sh
 
+# Get Jaeger
+
+https://github.com/jaegertracing/jaeger
+make ...
+
 # Get Microservice
 
 mkdir -p $GOPATH/src/github.com/uber/jaeger-client-go/examples
@@ -35,10 +40,11 @@ cd $GOPATH/src/github.com/uber/jaeger-client-go/examples
 git clone https://github.com/LucasMGutierrez/ms
 cd ms
 
-# Run Jaeger UI
+# Run Jaeger from Docker-compose
 
-docker run -d -p5775:5775/udp -p6831:6831/udp -p6832:6832/udp -p5778:5778 -p16686:16686 -p14268:14268 -p9411:9411 jaegertracing/all-in-one:0.8.0
-http://localhost:16686
+cd $GOPATH/src/github.com/jaegertracing/jaeger/docker-compose/
+mv jaeger-docker-compose.yml docker-compose.yml
+docker-compose up
 
 # Run Microservices
 
@@ -48,7 +54,31 @@ sh servers.sh
 
 go run client.go
 
-# Kill microservices (da um trabalhinho)
+# Kill microservices
 
 sudo lsof -i -P -n | grep LISTEN > arq
 python3 killservers.py
+
+# Access Cassandra and Python Driver
+
+docker exec -it dockercompose_cassandra_1 bash
+apt update
+apt install python-pip
+pip install cassandra-driver
+
+# Move Model Generator
+
+cd $GOPATH/src/github.com/uber/jaeger-client-go/examples/ms
+docker cp gerador/conn.py dockercompose_cassandra_1:/
+
+# Using Model Generator
+
+docker exec -it dockercompose_cassandra_1 bash
+python conn.py [any_service_name] [app_name]
+
+# Delete all Jaeger data from Cassandra 
+
+cd $GOPATH/src/github.com/uber/jaeger-client-go/examples/ms
+docker cp gerador/delall.py dockercompose_cassandra_1:/
+docker exec -it dockercompose_cassandra_1 bash
+python delall.py

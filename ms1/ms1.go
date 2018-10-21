@@ -17,6 +17,7 @@ func main() {
 func NewServer() {
 	tracer, closer := tracing.InitJaeger("Ms1")
 	defer closer.Close()
+	init := false
 
 	http.HandleFunc("/publish", func(w http.ResponseWriter, r *http.Request) {
 		spanCtx, _ := tracer.Extract(opentracing.HTTPHeaders, opentracing.HTTPHeadersCarrier(r.Header))
@@ -25,7 +26,8 @@ func NewServer() {
 
 		str1 := xhttp.Get(span, "Ms2", config.PortMs2)
 		str2 := xhttp.Get(span, "Ms3", config.PortMs3)
-		delay.Sleep(config.Ms1Delay, config.Ms1DelayVar)
+
+		delay.Sleep(config.Ms1Delay, config.Ms1DelayVar, &init)
 		reply := str1 + str2
 
 

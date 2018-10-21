@@ -9,25 +9,25 @@ var (
     FrontendDelay = 100 * time.Millisecond
 
     // Frontend delay variation
-    FrontendDelayVar = FrontendDelay / 10
+    FrontendDelayVar = FrontendDelay / 40
 
     // Ms1 delay
     Ms1Delay = 300 * time.Millisecond
 
     // Ms1 delay variation
-    Ms1DelayVar = Ms1Delay / 10
+    Ms1DelayVar = Ms1Delay / 40
 
     // Ms2 delay
     Ms2Delay = 1000 * time.Millisecond
 
     // Ms2 delay variation
-	Ms2DelayVar = Ms2Delay / 5
+	Ms2DelayVar = Ms2Delay / 50
 
 	// Ms3 delay
     Ms3Delay = 1000 * time.Millisecond
 
     // Ms3 delay variation
-	Ms3DelayVar = Ms3Delay / 2
+	Ms3DelayVar = Ms3Delay / 30
 
 	// Port frontend
 	PortFrontend = ":1234"
