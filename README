@@ -82,3 +82,7 @@ cd $GOPATH/src/github.com/uber/jaeger-client-go/examples/ms
 docker cp gerador/delall.py dockercompose_cassandra_1:/
 docker exec -it dockercompose_cassandra_1 bash
 python delall.py
+
+# Model
+
+R -f app_name.R

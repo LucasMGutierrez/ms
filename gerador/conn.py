@@ -132,8 +132,8 @@ f = open(app + '.R', 'w')
 
 f.write('\n# Modelo de Redes de Filas para o ' + app + '\n\n')
 f.write('library(pdq)\n\n')
-f.write('nReqs <- \n')
-f.write('tempo <- \n')
+f.write('nReqs <- 1\n')
+f.write('tempo <- ' + str(2.0 * root.meanspans() / 1000.0) + '\n')
 f.write('lambda <- nReqs / tempo\n\n')
 
 f.write('# Inicializacao\n\n')
