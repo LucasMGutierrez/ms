@@ -23,9 +23,14 @@ func NewServer() {
 		spanCtx, _ := tracer.Extract(opentracing.HTTPHeaders, opentracing.HTTPHeadersCarrier(r.Header))
 		span := tracer.StartSpan("Ms1", opentracing.ChildOf(spanCtx))
 		defer span.Finish()
+		//message := make(chan string)
 
+		//go func() {
+		//	message <- xhttp.Get(span, "Ms2", config.PortMs2)
+		//}()
 		str1 := xhttp.Get(span, "Ms2", config.PortMs2)
 		str2 := xhttp.Get(span, "Ms3", config.PortMs3)
+		//str1 := <-message
 
 		delay.Sleep(config.Ms1Delay, config.Ms1DelayVar, &init)
 		reply := str1 + str2

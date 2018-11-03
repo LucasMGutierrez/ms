@@ -24,7 +24,7 @@ var (
 	Ms2DelayVar = Ms2Delay / 50
 
 	// Ms3 delay
-    Ms3Delay = 1000 * time.Millisecond
+    Ms3Delay = 500 * time.Millisecond
 
     // Ms3 delay variation
 	Ms3DelayVar = Ms3Delay / 30
